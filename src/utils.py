@@ -1,6 +1,4 @@
 import csv
-import pygame
-from pygame.locals import*
 from component import FourQuiz, QuizBox
 
 def load_four_quiz(filepath: str) -> QuizBox:
