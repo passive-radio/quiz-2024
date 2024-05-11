@@ -1,0 +1,32 @@
+name: Publish Python 🐍 distributions 📦 to PyPI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-n-publish:
+    name: Build pyxapp and executable single html file.
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      id-token: write
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    - name: update ubuntu
+      run: sudo apt-get update && sudo apt install libsdl2-dev
+    - name: Install the lastes version of pyxel.
+      run: pip install -U pyxel
+    - name: Build a pyxapp.
+      run: pyxel package src src/app.py
+    - name: Remove an old pyxapp.
+      run: rm -rf ./index.pyxapp
+    - name: Rename the pyxapp file.
+      run: mv ./src.pyxapp ./index.pyxapp
+    - name: Convert *.pyxapp to an executable single html file.
+      run: pyxel app2html ./index.pyxapp

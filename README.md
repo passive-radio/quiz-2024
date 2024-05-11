@@ -5,4 +5,4 @@ This game is written in Python and uses Pyxel for the game engine.
 
 ## How to play
 
-WIP
+Open [https://passive-radio.github.io/quiz-2024/](https://passive-radio.github.io/quiz-2024/) in your browser.
