@@ -133,26 +133,25 @@ class ScResult(BaseScreen):
         font_m = self.font_m
         font_l = self.font_l
         
-        for ent, (status) in self.world.get_component(Status):
-            score_text = f"SCORE: {status.score}"
-            font_m.draw_text(base_x, base_y, score_text, 0)
-            
-            correct_text = f"正解: {status.count_correct}"
-            font_s.draw_text(base_x, base_y + 28, correct_text, 0)
-            
-            answered_text = f"回答: {status.count_answered}"
-            font_s.draw_text(base_x, base_y + 48, answered_text, 0)
-            
-            remaining_time = status.total_time - status.elapsed_time
-            remaining_text = f"経過時間:"
-            font_s.draw_text(base_x, base_y + 68, remaining_text, 0)
-            
-            remaining_time_text = f"{remaining_time}/{status.total_time}"
-            font_m.draw_text(base_x + 22, base_y + 84, remaining_time_text, 0)
-            
-            if status.count_answered == status.count_quiz:
-                result_text = "クイズ終了"
-                font_l.draw_text(base_x, base_y + 120, result_text, 0)
-                
-                result_text = "画面をクリックで再挑戦！"
-                font_m.draw_text(base_x, base_y + 140, result_text, 0)
+        ent, status = self.world.get_component(Status)[0]
+        status: Status
+        
+        result_text = "クイズ終了！"
+        result_text_x = (screen_size[0] - len(result_text) * 24) // 2
+        font_l.draw_text(result_text_x, base_y + 12, result_text, 0)
+        
+        correct_text = f"全{status.count_answered}問中{status.count_correct}問正解でした"
+        correct_text_x = (screen_size[0] - len(correct_text) * 24) // 2
+        font_l.draw_text(correct_text_x, screen_size[1]//2 - 120, correct_text, 0)
+        
+        score_text = f"SCORE: {status.score}"
+        score_text_x = correct_text_x
+        font_l.draw_text(score_text_x, screen_size[1]//2 - 60, score_text, 0)
+        
+        remaining_time = status.total_time - status.elapsed_time
+        remaining_time_text = f"(経過時間: {remaining_time}/{status.total_time}) [秒]"
+        remaining_time_text_x = correct_text_x
+        font_m.draw_text(remaining_time_text_x, screen_size[1]//2 - 20, remaining_time_text, 0)
+        
+        result_text = "画面をクリックで再挑戦！"
+        font_l.draw_text(correct_text_x, screen_size[1]//2 + 20, result_text, (pyxel.frame_count * 3 //self.world.FPS) % 16)

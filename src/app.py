@@ -4,6 +4,7 @@ import pyxel
 from entity import *
 from component import *
 from system import *
+from event import *
 from screen import *
 from action import *
 from event import *
@@ -59,7 +60,8 @@ if __name__ == "__main__":
     app.add_system_to_scenes(SyElapse, "answering", 0)
     app.add_system_to_scenes(SyAnswer, "answering", 1)
     app.add_system_to_scenes(SyToResult, "answering", 2)
-    app.add_system_to_scenes(SyReset, "result", 0)
+    
+    app.add_event_to_scene(EvReset, "start", lambda: app.actions.mouse_left_p)
 
     app.add_screen_to_scenes(ScStart, "start", 0)
     app.add_screen_to_scenes(ScStatusInAnswering, "answering", 0)
